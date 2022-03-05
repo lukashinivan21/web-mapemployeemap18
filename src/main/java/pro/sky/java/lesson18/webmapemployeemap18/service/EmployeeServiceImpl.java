@@ -11,41 +11,43 @@ import java.util.Map;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    Map<Employee, Integer> mapEmployee = new HashMap<>();
+    Map<Integer, Employee> mapEmployee = new HashMap<>();
     private int count = 0;
 
     @Override
     public Employee addEmployee(String firstName, String lastName) {
         Employee addingEmployee = new Employee(firstName, lastName);
-        if (mapEmployee.containsKey(addingEmployee)) {
+        if (mapEmployee.containsValue(addingEmployee)) {
             throw new EmployeeIsAlreadyInsideMapException("Employee is already inside map");
         }
-        mapEmployee.put(addingEmployee, count);
+        mapEmployee.put(count, addingEmployee);
         count++;
+        System.out.println(mapEmployee);
         return addingEmployee;
     }
 
     @Override
-    public Employee removeEmployee(String firstName, String lastName) {
-        Employee removingEmployee = new Employee(firstName, lastName);
-        if (!mapEmployee.containsKey(removingEmployee)) {
+    public Employee removeEmployee(Integer key) {
+        if (!mapEmployee.containsKey(key)) {
             throw new EmployeeIsNotFoundException("Employee is not found");
         }
-        mapEmployee.remove(removingEmployee);
+        Employee removingEmployee = mapEmployee.get(key);
+        mapEmployee.remove(key);
+        System.out.println(mapEmployee);
         return removingEmployee;
     }
 
     @Override
     public Employee findEmployee(String firstName, String lastName) {
         Employee ourEmployee = new Employee(firstName, lastName);
-        if (!mapEmployee.containsKey(ourEmployee)) {
+        if (!mapEmployee.containsValue(ourEmployee)) {
             throw new EmployeeIsNotFoundException("Employee is not found");
         }
         return ourEmployee;
     }
 
     @Override
-    public Map<Employee, Integer> printAllEmployees() {
+    public Map<Integer, Employee> printAllEmployees() {
         return mapEmployee;
     }
 }

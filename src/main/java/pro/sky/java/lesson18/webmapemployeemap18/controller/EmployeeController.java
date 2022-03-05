@@ -21,7 +21,7 @@ public class EmployeeController {
 
     @GetMapping
     public String greeting() {
-        return "Hello, employee!";
+        return "Hello, employee)";
     }
 
     @GetMapping("/add")
@@ -30,8 +30,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/remove")
-    public Employee remove(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
-        return employeeService.removeEmployee(firstName, lastName);
+    public Employee remove(@RequestParam("key") Integer key) {
+        return employeeService.removeEmployee(key);
     }
 
     @GetMapping("/find")
@@ -40,7 +40,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/print")
-    public Map<Employee, Integer> print() {
+    public Map<Integer, Employee> print() {
         return employeeService.printAllEmployees();
     }
 }
